@@ -1,0 +1,26 @@
+{
+  "name": "koach",
+  "version": "0.0.0",
+  "description": "Functional middleware composition + React-like component classes => modular composable Node web framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gingerich/koach.git"
+  },
+  "keywords": [
+    "koa",
+    "module",
+    "compose",
+    "api",
+    "microservice"
+  ],
+  "author": "Marlin Gingerich <marlin.gingerich@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gingerich/koach/issues"
+  },
+  "homepage": "https://github.com/gingerich/koach#readme"
+}
