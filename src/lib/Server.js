@@ -53,6 +53,10 @@ export default class Server extends EventEmitter {
       throw err
     })
   }
+
+  get listening () {
+    return this.http.listening
+  }
 }
 
 export class NodeServer extends Server {

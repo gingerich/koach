@@ -107,4 +107,12 @@ describe('KoaServer', () => {
 
     server.disconnect()
   })
+
+  test('server.listening', () => {
+    const server = new NodeServer()
+    expect(server.listening).toBe(false)
+    server.listen(() =>
+      expect(server.listening).toBe(true))
+    server.disconnect()
+  })
 })
