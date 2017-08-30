@@ -1,6 +1,9 @@
 # koach
-Functional middleware composition + React-like component classes 😱
+Functional middleware composition + React-like component classes 😱  
 
+### Motivation and Design
+koach provides a component model and a declaritive way to express those components and their composition. It is an attempt to formalize many of the conventions and patterns common in Node middlewares. It is built using Koa-style middleware.  
+A good component model enables composition of components. A monolithic API can now instead be expressed as a composition of components and subcomponents. A carefully composed API makes it easy to break off components into their own dedicated microservices (I.e. separate repo, deployment, etc.) when the time is right.
 
 ### Install
 ```
