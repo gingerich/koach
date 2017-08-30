@@ -2,9 +2,14 @@
   "name": "koach",
   "version": "0.0.0",
   "description": "Functional middleware composition + React-like component classes => modular composable Node web framework",
-  "main": "index.js",
+  "main": "./build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "npm run build",
+    "build": "npm run clean && babel src -d build",
+    "clean": "rm -rf build",
+    "lint": "eslint src --fix",
+    "test": "jest",
+    "test-cov": "npm run test -- --coverage"
   },
   "repository": {
     "type": "git",
@@ -22,5 +27,43 @@
   "bugs": {
     "url": "https://github.com/gingerich/koach/issues"
   },
-  "homepage": "https://github.com/gingerich/koach#readme"
+  "homepage": "https://github.com/gingerich/koach#readme",
+  "dependencies": {
+    "bottlejs": "^1.6.1",
+    "debug": "^2.6.8",
+    "invariant": "^2.2.2",
+    "koa": "^2.2.0",
+    "koa-compose": "^4.0.0",
+    "koa-except": "^0.0.2",
+    "koa-mount": "^3.0.0",
+    "koa-path-match": "next",
+    "koa-route": "next",
+    "koa-router": "^7.2.0",
+    "lodash.get": "^4.4.2",
+    "methods": "^1.1.2",
+    "path-to-regexp": "^1.7.0",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-env": "^1.5.2",
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "jest": "^20.0.4",
+    "supertest": "^3.0.0"
+  },
+  "jest": {
+    "coverageReporters": [
+      "text-summary",
+      "lcov"
+    ],
+    "testEnvironment": "node"
+  }
 }

@@ -1,0 +1,7 @@
+# Support ES2016 features
+parser: babel-eslint
+
+extends: [airbnb-base, standard]
+
+rules:
+  comma-dangle: 0
