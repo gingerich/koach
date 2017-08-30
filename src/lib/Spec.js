@@ -64,11 +64,6 @@ export default class Spec {
       ? type : function factory (...args) { return type(...args) }
   }
 
-  set (key, value) {
-    this.config[key] = value
-    return this
-  }
-
   use (...components) {
     if (typeof components[0] === 'string') {
       const path = components.shift()

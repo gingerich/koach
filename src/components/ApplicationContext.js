@@ -12,6 +12,10 @@ export default class ApplicationContext extends Component {
     return this.config.server
   }
 
+  set server (server) {
+    this.config.server = server
+  }
+
   attach (name, factory, ...deps) {
     this.registry.factory(name, factory, ...deps)
     Object.defineProperty(this, name, {

@@ -24,7 +24,7 @@ export default class Koach {
   }
 
   config (config) {
-    this.registry.constant('config', { ...config })
+    this.registry.constant('config', Object.freeze({ ...config }))
   }
 
   server (factory) {
@@ -65,7 +65,7 @@ function serverFactory () {
 }
 
 function appFactory ({ server, root: rootSpec }) {
-  rootSpec.set('server', server)
+  rootSpec.ref(instance => instance.server = server)
   server.use(rootSpec.compose())
   return server
 }
