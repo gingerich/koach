@@ -17,9 +17,10 @@
   },
   "keywords": [
     "koa",
-    "module",
+    "component",
     "compose",
     "api",
+    "framework",
     "microservice"
   ],
   "author": "Marlin Gingerich <marlin.gingerich@gmail.com>",
