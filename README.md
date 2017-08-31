@@ -1,9 +1,9 @@
 # Koach
 ### A piecewise API framework for Node.js
-Declaritive React-like component model meets Koa middleware function composition 😱  
+Declarative React-like component model meets Koa middleware function composition 😱  
 
 ## Motivation and Design
-Koach provides a powerful component model and a declaritive way to express those components and their composition. It is an attempt to formalize many of the conventions and patterns common in Node middlewares. The foundational building blocks are Koa-style middleware functions.  
+Koach provides a powerful component model and a declarative way to express those components and their composition. It is an attempt to formalize many of the conventions and patterns common in Node middlewares. The foundational building blocks are Koa-style middleware functions.  
 
 A good component model enables composition of components. With Koach, a monolithic API can now instead be expressed as a hierarchical composition of components and subcomponents. A carefully composed API makes it easy to break off independent pieces into their own dedicated microservices (I.e. separate repo, deployment, etc.) when the time is right.
 
