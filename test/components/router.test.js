@@ -1,7 +1,6 @@
 import request from 'supertest'
 
-import Spec from '../../src/lib/Spec'
-import { Provider, Router, Component, Module } from '../../src'
+import { Spec, Provider, Router, Component, Module } from '../../src'
 
 describe('Router component', () => {
   let Koach

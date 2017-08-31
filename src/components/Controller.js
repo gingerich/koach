@@ -6,7 +6,7 @@ const debug = require('debug')('koach')
 const route = require('koa-path-match')()
 
 // @path('/:id')
-export default class Controller extends Component {
+module.exports = class Controller extends Component {
   compose () {
     const controller = this.config.controller || this
     const path = this.constructor.PATH || this.config.path || '/'

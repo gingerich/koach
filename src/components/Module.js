@@ -2,7 +2,7 @@ import Component from './Component'
 import Mount from './Mount'
 
 // @path('/foo')
-export default class Module extends Component {
+module.exports = class Module extends Component {
   constructor (config) {
     super(config)
     this.path = this.config.path || this.constructor.PATH

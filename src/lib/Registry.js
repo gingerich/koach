@@ -1,6 +1,6 @@
 import Bottle from 'bottlejs'
 
-export default class Registry {
+class Registry {
   constructor (name) {
     this.bottle = new Bottle(name)
   }
@@ -26,3 +26,5 @@ export default class Registry {
 
 // expose global config
 Registry.config = Bottle.config
+
+module.exports = Registry

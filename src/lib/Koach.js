@@ -5,7 +5,7 @@ import Spec from './Spec'
 
 const debug = require('debug')('koach')
 
-export default class Koach {
+module.exports = class Koach {
   constructor () {
     this.registry = new Registry()
     this.registry.service('root', rootFactory, 'config')

@@ -8,13 +8,7 @@ const serverEvents = [
   'close', 'connect', 'connection', 'request', 'upgrade'
 ]
 
-export default class Server extends EventEmitter {
-  static listener (fn) {
-    const server = new this()
-    server.on('request', fn)
-    return server
-  }
-
+class Server extends EventEmitter {
   constructor (config = {}) {
     super()
     this.config = config
@@ -59,15 +53,18 @@ export default class Server extends EventEmitter {
   }
 }
 
-export class NodeServer extends Server {
+class NodeServer extends Server {
   listen (...args) {
     return this.http.listen(...args)
   }
 }
 
-export function listener (fn) {
-  return NodeServer.listener(fn)
-  // const server = new NodeServer()
-  // server.on('request', fn)
-  // return server
+function listener (fn) {
+  const server = new NodeServer()
+  server.on('request', fn)
+  return server
 }
+
+module.exports = Server
+module.exports.NodeServer = NodeServer
+module.exports.listener = listener

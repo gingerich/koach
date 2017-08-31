@@ -4,13 +4,13 @@ import get from 'lodash.get'
 
 const debug = require('debug')('koach:component')
 
-export default class Component {
+module.exports = class Component {
   static specType (Spec) {
     return Spec
   }
 
   static spec (config, factory = this) {
-    const Spec = require('../lib/Spec').default
+    const Spec = require('../lib/Spec')
     const Type = this.specType(Spec)
     return new Type(factory, config)
   }

@@ -5,7 +5,7 @@ import Registry from './Registry'
 
 const debug = require('debug')('koach:spec')
 
-export default class Spec {
+class Spec {
   static of (type, config, ...subcomponents) {
     return new this(type, config, subcomponents)
   }
@@ -104,9 +104,11 @@ export default class Spec {
 }
 
 // Add setters for promoted config properties
-['path'].forEach((prop) => {
+;['path'].forEach((prop) => {
   Spec.prototype[prop] = function (value) {
     this.config[prop] = value
     return this
   }
 })
+
+module.exports = Spec

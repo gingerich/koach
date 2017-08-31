@@ -6,7 +6,7 @@ import Component from './Component'
 import Mount from './Mount'
 import Spec from '../lib/Spec'
 
-export default class Router extends Component {
+class Router extends Component {
   static specType () {
     return RouterSpec
   }
@@ -21,7 +21,7 @@ Router.prototype.del = Router.prototype.delete
 
 Router.methods = methods
 
-export class Layer extends Component {
+class Layer extends Component {
   get path () {
     return this.config.path
   }
@@ -33,7 +33,7 @@ export class Layer extends Component {
   }
 }
 
-export class Route extends Component {
+class Route extends Component {
   compose (middleware) {
     const { method } = this.config
     return Method.spec({ method })
@@ -42,7 +42,7 @@ export class Route extends Component {
   }
 }
 
-export class Path extends Component {
+class Path extends Component {
   compose (middleware) {
     const handler = compose(middleware())
     const params = []
@@ -70,7 +70,7 @@ export class Path extends Component {
   }
 }
 
-export class Method extends Component {
+class Method extends Component {
   compose (middleware) {
     const handler = compose(middleware())
     let { method } = this.config
@@ -89,7 +89,7 @@ export class Method extends Component {
   }
 }
 
-export class Params extends Component {
+class Params extends Component {
   paramHandlers (params) {
     const handlers = params.filter(param => !!this.config.params[param.name])
       .map(param => this.config.params[param.name])
@@ -162,4 +162,10 @@ function decode (val) {
   return val ? decodeURIComponent(val) : null
 }
 
-export { RouterSpec as Spec }
+module.exports = Router
+module.exports.Layer = Layer
+module.exports.Route = Route
+module.exports.Path = Path
+module.exports.Method = Method
+module.exports.Params = Params
+module.exports.Spec = RouterSpec

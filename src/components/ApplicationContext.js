@@ -2,7 +2,7 @@ import Component from './Component'
 import Stack from './Stack'
 import Registry from '../lib/Registry'
 
-export default class ApplicationContext extends Component {
+module.exports = class ApplicationContext extends Component {
   constructor (config, context) {
     super(config, context)
     this.registry = new Registry()

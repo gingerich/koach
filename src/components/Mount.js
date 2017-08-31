@@ -5,7 +5,7 @@ import Component from './Component'
 
 const debug = require('debug')('koach:mount')
 
-export default class Mount extends Component {
+module.exports = class Mount extends Component {
   static of (path, ...components) {
     return new Mount({ path }).use(...components)
   }

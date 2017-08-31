@@ -3,7 +3,7 @@ import Server from './Server'
 
 const debug = require('debug')('koach:koaserver')
 
-export default class KoaServer extends Server {
+module.exports = class KoaServer extends Server {
   constructor (config) {
     let koa
     if (config instanceof Koa) {
