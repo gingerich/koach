@@ -1,4 +1,6 @@
 # Koach
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/gingerich/koach.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/gingerich/koach.svg?branch=master)](https://travis-ci.org/gingerich/koach)
 
 ### A piecewise API framework for Node.js
