@@ -57,8 +57,8 @@ Koach in a nutshell:
   }
   ```
 
-## Wiki
-Visit the [Wiki](https://github.com/gingerich/koach/wiki) for detailed documentation and steps to get started with Koach.
+## Documentation
+Visit the [Wiki](https://github.com/gingerich/koach/wiki/Getting-Started) for detailed documentation and steps to get started with Koach.
 
 # License
 MIT
