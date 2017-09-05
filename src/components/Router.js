@@ -6,6 +6,8 @@ import Component from './Component'
 import Mount from './Mount'
 import Spec from '../lib/Spec'
 
+const debug = require('debug')('koach:router')
+
 class Router extends Component {
   static specType () {
     return RouterSpec
@@ -37,8 +39,10 @@ class Route extends Component {
   compose (middleware) {
     const { method } = this.config
     return Method.spec({ method })
-      .use(Layer.spec({ ...this.config })
-        .use(this.config.subcomponents))
+      .use(
+        Layer.spec({ ...this.config })
+          .use(this.config.subcomponents)
+      )
   }
 }
 
@@ -52,7 +56,10 @@ class Path extends Component {
       const match = re.exec(ctx.path)
       if (match) {
         // Consume matched path. Downstream components need not know path hierarchy
-        ctx.path = ctx.path.replace(match[0], '') || '/'
+        const newPath = ctx.path.replace(match[0], '') || '/'
+        debug(`match path ${match[0]} -> ${newPath}`)
+        ctx.path = newPath
+
         const args = match.slice(1).map(decode)
         ctx.params = {}
         args.forEach((arg, i) => {
@@ -73,8 +80,7 @@ class Path extends Component {
 class Method extends Component {
   compose (middleware) {
     const handler = compose(middleware())
-    let { method } = this.config
-    if (method) method = method.toUpperCase()
+    const { method } = this.config
     return function methodHandler (ctx, next) {
       if (!Method.matches(ctx.method, method)) return next()
       return handler(ctx, next)
@@ -83,6 +89,7 @@ class Method extends Component {
 
   static matches (method, matchMethod) {
     if (!matchMethod) return true
+    matchMethod = matchMethod.toUpperCase()
     if (method === matchMethod) return true
     if (matchMethod === 'GET' && method === 'HEAD') return true
     return false
