@@ -3,7 +3,7 @@ import http from 'http'
 
 const debug = require('debug')('koach:server')
 
-const serverEvents = [
+const HttpServerEvents = [
   'checkContinue', 'checkExpectation', 'clientError',
   'close', 'connect', 'connection', 'request', 'upgrade'
 ]
@@ -18,7 +18,7 @@ class Server extends EventEmitter {
       // Use value of res.headersSent for additional certainty
       req.unhandled = !res.headersSent
     })
-    serverEvents.forEach((eventName) => {
+    HttpServerEvents.forEach((eventName) => {
       this.http.on(eventName, (...args) => this.emit(eventName, ...args))
     })
   }
