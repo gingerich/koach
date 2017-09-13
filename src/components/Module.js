@@ -15,8 +15,8 @@ class Module extends Component {
     return this.config.path || this.constructor.PATH
   }
 
-  get dirname () {
-    return this.config.dirname
+  get directory () {
+    return this.config.directory
   }
 
   get routes () {
@@ -43,7 +43,7 @@ class Module extends Component {
       spec.use(this.config.subcomponents)
     }
 
-    spec.use(loader.load(this.dirname, this.config.requireDir))
+    spec.use(loader.load(this.directory, this.config.requireDir))
 
     if (orderSubcomponents === 'post') {
       spec.use(this.config.subcomponents)
@@ -57,9 +57,9 @@ class Module extends Component {
 
 function routesPlugin (routes) {
   return (contents) => {
-    const addRoute = (parent, component) => {
+    const addRoute = (router, component) => {
       if (typeof component === 'function') {
-        return parent.use(component)
+        return router.use(component)
       }
       if (typeof component === 'string') {
         component = { name: component }
@@ -68,7 +68,10 @@ function routesPlugin (routes) {
       if (!Class) {
         throw new Error(`${component.name} does not match any component`)
       }
-      const c = Class.spec(component.config)
+      let spec = Class.spec(component.config)
+      if (component.except) {
+        spec = spec.except(component.except)
+      }
       const method = component.method || 'use'
       const args = []
       if (component.path) {
@@ -78,8 +81,8 @@ function routesPlugin (routes) {
         const stack = component.middleware.reduce(addRoute, Stack.spec())
         args.push(stack)
       }
-      args.push(c)
-      return parent[method.toLowerCase()](...args)
+      args.push(spec)
+      return router[method.toLowerCase()](...args)
     }
     return routes.reduce(addRoute, Router.spec())
   }
@@ -110,7 +113,8 @@ class Loader {
       throw new Error(`Unable to load module from ${dirname}`)
     }
     return this.plugins.map(({ selector, plugin }) => {
-      const selected = selector ? contents(selector) : contents
+      let selected = selector ? get(contents, selector, {}) : contents
+      selected = Object.assign(get.bind(null, selected), selected)
       return plugin(selected)
     })
   }
@@ -124,8 +128,7 @@ Loader.loadDir = function loadDir (dirname, options) {
     rename: name => name.replace(/(_\w)/g, m => m[1].toUpperCase()) // snake_case to camelCase
   }, options)
 
-  const contents = requireDirectory(module, dirname, opts)
-  return Object.assign(get.bind(null, contents), contents)
+  return requireDirectory(module, dirname, opts)
 }
 
 module.exports = Module
