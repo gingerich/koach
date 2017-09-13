@@ -16,6 +16,10 @@ module.exports = class ApplicationContext extends Component {
     this.config.server = server
   }
 
+  getChildContext () {
+    return this
+  }
+
   attach (name, factory, ...deps) {
     this.registry.factory(name, factory, ...deps)
     Object.defineProperty(this, name, {

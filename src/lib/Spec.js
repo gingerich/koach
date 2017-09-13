@@ -14,31 +14,29 @@ class Spec {
     return Object.assign(fn, { $deps: deps })
   }
 
-  static compose (spec, app, parent) {
+  static compose (spec, context, parent) {
     if (typeof spec === 'function') {
       return spec
     }
     if (spec instanceof Component) {
-      return Spec.compose(spec.compose(), app, parent)
+      return Spec.compose(spec.compose(), context, parent)
     }
 
-    const component = spec.make(app)
+    const component = spec.make(context)
 
     if (!(component instanceof Component)) {
       throw new TypeError('Expected spec to generate Component type')
     }
 
-    if (!app) {
-      app = component
-    }
+    // context = component.getChildContext()
 
     const middleware = (function middleware () {
-      return this.config.subcomponents.map(s => Spec.compose(s, app, this))
+      return this.config.subcomponents.map(s => Spec.compose(s, this.getChildContext(), this))
     }.bind(component))
 
     component.componentWillMount()
 
-    const fn = Spec.compose(component.compose(middleware), app, component)
+    const fn = Spec.compose(component.compose(middleware), context, component)
 
     component.componentDidMount(parent)
 

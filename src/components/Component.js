@@ -64,6 +64,10 @@ module.exports = class Component {
   //   this.subcomponents.push(component)
   // }
 
+  getChildContext () {
+    return this.context
+  }
+
   componentWillMount (defer) {
     // Component lifecycle method
   }
