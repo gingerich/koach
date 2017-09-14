@@ -5,23 +5,9 @@ import pathToRegexp from 'path-to-regexp'
 import Component from './Component'
 import Mount from './Mount'
 import Spec from '../lib/Spec'
+import extension from '../lib/extension'
 
 const debug = require('debug')('koach:router')
-
-class Router extends Component {
-  static specType () {
-    return RouterSpec
-  }
-
-  compose (middleware) {
-    return Mount.spec({ path: this.config.path })
-      .use(this.config.subcomponents)
-  }
-}
-
-Router.prototype.del = Router.prototype.delete
-
-Router.methods = methods
 
 class Layer extends Component {
   get path () {
@@ -78,6 +64,14 @@ class Path extends Component {
 }
 
 class Method extends Component {
+  static matches (method, matchMethod) {
+    if (!matchMethod) return true
+    matchMethod = matchMethod.toUpperCase()
+    if (method === matchMethod) return true
+    if (matchMethod === 'GET' && method === 'HEAD') return true
+    return false
+  }
+
   compose (middleware) {
     const handler = compose(middleware())
     const { method } = this.config
@@ -85,14 +79,6 @@ class Method extends Component {
       if (!Method.matches(ctx.method, method)) return next()
       return handler(ctx, next)
     }
-  }
-
-  static matches (method, matchMethod) {
-    if (!matchMethod) return true
-    matchMethod = matchMethod.toUpperCase()
-    if (method === matchMethod) return true
-    if (matchMethod === 'GET' && method === 'HEAD') return true
-    return false
   }
 }
 
@@ -118,7 +104,40 @@ class Params extends Component {
   }
 }
 
-class RouterSpec extends Spec {
+class Router extends Component {
+  compose (middleware) {
+    return Mount.spec({ path: this.config.path })
+      .use(this.config.subcomponents)
+  }
+}
+
+Router.methods = methods
+
+Router.plugins = extension
+  .plugin('all', function (path, ...middleware) {
+    this.use(Route.spec({ ...this.config, path })).use(middleware)
+    return this
+  })
+  .plugin('route', function (path, controller) {
+    const layer = Layer.spec({ ...this.config, path }).use(controller.path(path))
+    return this.use(layer)
+  })
+  .plugin('param', function (name, fn) {
+    (this.config.params[name] = this.config.params[name] || []).push(fn)
+    return this
+  })
+  .plugin(Router.methods.reduce((plugins, method) => {
+    plugins[method] = function (path, ...middleware) {
+      const route = Route.spec({ ...this.config, path, method }).use(middleware)
+      this.use(route)
+      return this
+    }
+    return plugins
+  }, {}))
+  .plugin('del', 'delete')
+  .plugin('controller', 'route')
+
+Router.Spec = class RouterSpec extends Spec {
   constructor (type, config, subcomponents) {
     super(type, { params: {}, ...config }, subcomponents)
     this.routes = {}
@@ -137,33 +156,7 @@ class RouterSpec extends Spec {
     }
     return super.use(...components)
   }
-
-  all (path, ...middleware) {
-    this.use(Route.spec({ ...this.config, path })).use(middleware)
-    return this
-  }
-
-  route (path, controller) {
-    const layer = Layer.spec({ ...this.config, path }).use(controller.path(path))
-    return this.use(layer)
-  }
-
-  param (name, fn) {
-    (this.config.params[name] = this.config.params[name] || []).push(fn)
-    return this
-  }
 }
-
-Router.methods.forEach((method) => {
-  RouterSpec.prototype[method] = function (path, ...middleware) {
-    const route = Route.spec({ ...this.config, path, method }).use(middleware)
-    this.use(route)
-    return this
-  }
-})
-
-RouterSpec.prototype.del = RouterSpec.prototype.delete
-RouterSpec.prototype.controller = RouterSpec.prototype.route
 
 function decode (val) {
   return val ? decodeURIComponent(val) : null
@@ -175,4 +168,3 @@ module.exports.Route = Route
 module.exports.Path = Path
 module.exports.Method = Method
 module.exports.Params = Params
-module.exports.Spec = RouterSpec
