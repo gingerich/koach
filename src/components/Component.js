@@ -1,18 +1,21 @@
 import invariant from 'invariant'
 import get from 'lodash.get'
 // import Spec from '../lib/Spec'
+import extension from '../lib/extension'
 
 const debug = require('debug')('koach:component')
 
 module.exports = class Component {
   static specType (Spec) {
+    // TODO: deprecate
     return Spec
   }
 
   static spec (config, factory = this) {
     const Spec = require('../lib/Spec')
-    const Type = this.specType(Spec)
-    return new Type(factory, config)
+    const Specification = this.Spec || class extends Spec {}
+    extension(this.plugins).extend(Specification)
+    return new Specification(factory, config)
   }
 
   static compose (config) {
