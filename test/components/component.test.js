@@ -78,13 +78,10 @@ describe('Component', () => {
     })
   })
 
-  describe('Component.specType', () => {
-    class MyComponentSpec {}
-    class MyComponent extends Component {
-      static specType () {
-        return MyComponentSpec
-      }
-    }
+  describe('Component.Spec', () => {
+    class MyComponent extends Component {}
+    const MyComponentSpec = class Spec {}
+    MyComponent.Spec = MyComponentSpec
 
     test('generates custom spec', () => {
       const spec = MyComponent.spec()
