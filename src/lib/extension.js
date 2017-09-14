@@ -1,4 +1,7 @@
 function Extension (...args) {
+  if (!(this instanceof Extension)) {
+    return new Extension(...args)
+  }
   this.proto = {}
   if (args) {
     this.plugin(...args)
@@ -21,7 +24,7 @@ Extension.prototype.plugin = function (name, plug) {
     ext = {
       [name] () {
         if (typeof plug === 'string') {
-          return this[plug]()
+          return this[plug].apply(this, arguments)
         }
         return plug.apply(this, arguments) || this
       }
@@ -40,9 +43,7 @@ Extension.prototype.extend = function (target) {
   return target
 }
 
-module.exports = function () {
-  return new Extension()
-}
+module.exports = Extension
 
 const extension = new Extension()
 module.exports.plugin = extension.plugin.bind(extension)
