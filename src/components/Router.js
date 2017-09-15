@@ -83,9 +83,14 @@ class Method extends Component {
 }
 
 class Params extends Component {
+  constructor (config) {
+    super(config)
+    this.params = config.params || {}
+  }
+
   paramHandlers (params) {
-    const handlers = params.filter(param => !!this.config.params[param.name])
-      .map(param => this.config.params[param.name])
+    const handlers = params.filter(param => !!this.params[param.name])
+      .map(param => this.params[param.name])
     return Array.prototype.concat.apply([], handlers)
   }
 
@@ -113,7 +118,7 @@ class Router extends Component {
 
 Router.methods = methods
 
-Router.plugins = extension
+Router.plugins = extension()
   .plugin('all', function (path, ...middleware) {
     this.use(Route.spec({ ...this.config, path })).use(middleware)
     return this
@@ -134,8 +139,8 @@ Router.plugins = extension
     }
     return plugins
   }, {}))
-  .plugin('del', 'delete')
-  .plugin('controller', 'route')
+  .plugin('del', 'delete') // delete() aliased to del()
+  .plugin('controller', 'route') // route() aliased to controller()
 
 Router.Spec = class RouterSpec extends Spec {
   constructor (type, config, subcomponents) {
