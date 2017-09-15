@@ -18,9 +18,6 @@ class Spec {
     if (typeof spec === 'function') {
       return spec
     }
-    if (spec instanceof Component) {
-      return Spec.compose(spec.compose(), context, parent)
-    }
 
     const component = spec.make(context)
 
