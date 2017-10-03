@@ -137,7 +137,7 @@ class RouterSpec extends Spec {
   }
 
   route (path, controller) {
-    const layer = Layer.spec({ ...this.config, path }).use(controller.path(path))
+    const layer = Layer.spec({ ...this.config, path }).use(controller)//.path(path))
     return this.use(layer)
   }
 
