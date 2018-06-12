@@ -43,7 +43,7 @@
     "lodash.get": "^4.4.2",
     "methods": "^1.1.2",
     "path-to-regexp": "^2.0.0",
-    "winston": "^2.3.1"
+    "winston": "^3.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
