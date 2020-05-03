@@ -4,12 +4,13 @@
   "description": "Functional middleware composition + React-like component classes => modular composable Node web framework",
   "main": "./build/index.js",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublish": "yarn run snyk-protect && npm run build",
     "build": "npm run clean && babel src -d build",
     "clean": "rm -rf build",
     "lint": "eslint src --fix",
     "test": "jest",
-    "test-cov": "npm run test -- --coverage"
+    "test-cov": "npm run test -- --coverage",
+    "snyk-protect": "snyk protect"
   },
   "repository": {
     "type": "git",
@@ -43,7 +44,8 @@
     "lodash.get": "^4.4.2",
     "methods": "^1.1.2",
     "path-to-regexp": "^2.0.0",
-    "winston": "^2.3.1"
+    "winston": "^2.3.1",
+    "snyk": "^1.316.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -66,5 +68,6 @@
       "lcov"
     ],
     "testEnvironment": "node"
-  }
+  },
+  "snyk": true
 }
