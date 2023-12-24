@@ -39,7 +39,7 @@
     "koa-mount": "^3.0.0",
     "koa-path-match": "next",
     "koa-route": "next",
-    "koa-router": "^7.2.0",
+    "koa-router": "^11.0.2",
     "lodash.get": "^4.4.2",
     "methods": "^1.1.2",
     "path-to-regexp": "^2.0.0",
